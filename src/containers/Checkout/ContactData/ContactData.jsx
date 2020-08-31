@@ -8,6 +8,9 @@ import Joi from "joi-browser";
 import _ from "lodash";
 import classnames from "classnames";
 import "bootstrap/dist/css/bootstrap.css";
+import { connect } from "react-redux";
+import * as actionTypes from "../../../store/actions";
+
 class ContactData extends Component {
   state = {
     customer: {
@@ -68,11 +71,11 @@ class ContactData extends Component {
     e.preventDefault();
     await this.validate();
     if (_.isEmpty(this.state.errors)) {
-      console.log(this.props.ingredients);
+      console.log(this.props.ingrs);
       this.setState({ loading: true });
       const order = {
-        ingredients: this.props.ingredients,
-        price: this.props.totalPrice,
+        ingredients: this.props.ingrs,
+        price: this.props.price,
         customer: this.state.customer,
       };
 
@@ -80,6 +83,7 @@ class ContactData extends Component {
         .post("/orders.json", order)
         .then((response) => {
           this.setState({ loading: false });
+          this.props.onOrderSuccess();
           this.props.history.push("/");
         })
         .catch((error) => {
@@ -283,4 +287,17 @@ class ContactData extends Component {
     );
   }
 }
-export default ContactData;
+
+const mapStateToProps = (state) => {
+  return {
+    ingrs: state.ingredients,
+    price: state.totalPrice,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onOrderSuccess: () => dispatch({ type: actionTypes.RESET }),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);
