@@ -39,10 +39,9 @@ const checkAuthTimeout = (expirationTime) => {
 
 //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 //https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
-// AIzaSyBLE4PRRmL8sfQbhGy2cVBlZ5UElBwK1ZY
 export const auth = (payload, isSignup) => {
   return dispatch => {
-    const apiKey = "AIzaSyBLE4PRRmL8sfQbhGy2cVBlZ5UElBwK1ZY"
+    const apiKey = process.env.REACT_APP_GOOGLE_API_KEY
     let authUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="
     if (isSignup) {
       authUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
