@@ -21,6 +21,7 @@ class App extends Component {
     let routes =
       <Switch>
         <Route path="/auth" render={(props) => <Suspense fallback={<Suspense />}><Auth {...props} /></Suspense>} />
+        <Route path="/checkout" render={(props) => <Suspense fallback={<Spinner />}><Checkout {...props} /></Suspense>} />
         <Route path="/" exact component={BurgerBuilder} />
         <Redirect to="/" />
       </Switch>
